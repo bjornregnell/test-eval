@@ -36,19 +36,12 @@ def testEvalInfer(): Unit =
 def testEvalError() = 
   import com.eed3si9n.eval.{Eval, EvalResult, EvalException}
   val eval = Eval()
-  val code = """
-    val firstLine = 42
-    def ok = println("ok")
-    def err = 
-      ok
-      blabla
-      [{()}]
-  """
-  val result: EvalResult | EvalException = try eval.evalInfer(code) catch
+  val code = """badCode"""
+  val result: EvalResult | String = try eval.evalInfer(code) catch
     case e: EvalException =>
       println(e.getMessage()) 
       println(e.getStackTrace().mkString("\n"))
-      e
+      e.getMessage().dropWhile(_ != '$')
   println(result)
   
 
